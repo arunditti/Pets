@@ -41,7 +41,11 @@ public class MainActivity extends AppCompatActivity {
         // To access our database, we instantiate our subclass of SQLiteOpenHelper
         // and pass the context, which is the current activity.
         mDbHelper = new PetDBHelper(this);
+    }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
         displayDatabaseInfo();
     }
 
@@ -83,7 +87,6 @@ public class MainActivity extends AppCompatActivity {
 
         Log.v("MainActivity", "new row ID " + newRowId);
     }
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
