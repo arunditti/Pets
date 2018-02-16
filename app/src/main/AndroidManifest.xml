@@ -17,6 +17,12 @@
             </intent-filter>
         </activity>
         <activity android:name=".EditorActivity"></activity>
+
+        <provider
+            android:name=".data.PetProvider"
+            android:authorities="com.arunditti.android.pets"
+            android:exported="false" />
+
     </application>
 
 </manifest>
