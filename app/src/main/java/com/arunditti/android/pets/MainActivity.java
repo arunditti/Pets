@@ -4,6 +4,7 @@ import android.content.ContentValues;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.net.Uri;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -55,8 +56,6 @@ public class MainActivity extends AppCompatActivity {
      */
     private void displayDatabaseInfo() {
 
-        // Create and/or open a database to read from it
-        SQLiteDatabase db = mDbHelper.getReadableDatabase();
 
         // Perform this raw SQL query "SELECT * FROM pets"
         // to get a Cursor that contains all rows from the pets table.
@@ -73,16 +72,17 @@ public class MainActivity extends AppCompatActivity {
 //        String[] selectionArgs = new String[] {
 //                String .valueOf(PetEntry.GENDER_FEMALE )};
 
-        Cursor cursor = db.query(
-                PetEntry.TABLE_NAME,
-                projection,
-                //selection,
-               // selectionArgs,
-                null,
-                null,
-                null,
-                null,
-                null);
+//        Cursor cursor = db.query(
+//                PetEntry.TABLE_NAME,
+//                projection,
+//                //selection,
+//               // selectionArgs,
+//                null,
+//                null,
+//                null,
+//                null,
+//                null);
+        Cursor cursor = getContentResolver().query(PetEntry.CONTENT_URI, projection, null, null, null);
 
         TextView displayView = (TextView) findViewById(R.id.text_view_pet);
 
@@ -143,9 +143,10 @@ public class MainActivity extends AppCompatActivity {
         values.put(PetEntry.COLUMN_PET_GENDER, PetEntry.GENDER_MALE);
         values.put(PetEntry.COLUMN_PET_WEIGHT, 7);
 
-        long newRowId= db.insert(PetEntry.TABLE_NAME, null, values);
+        //long newRowId= db.insert(PetEntry.TABLE_NAME, null, values);
 
-        Log.v("MainActivity", "new row ID " + newRowId);
+       // Log.v("MainActivity", "new row ID " + newRowId);
+        Uri newUri = getContentResolver().insert(PetEntry.CONTENT_URI, values);
     }
 
     @Override
