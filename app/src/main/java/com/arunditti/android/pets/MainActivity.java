@@ -1,6 +1,7 @@
 package com.arunditti.android.pets;
 
 import android.app.LoaderManager;
+import android.content.ContentUris;
 import android.content.ContentValues;
 import android.content.CursorLoader;
 import android.content.Intent;
@@ -15,6 +16,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.arunditti.android.pets.data.PetContract.PetEntry;
@@ -54,6 +56,20 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         // There is no pet data yet (until the loader finishes) so pass in null for the Cursor.
         mCursorAdapter = new PetCursorAdapter(this, null);
         petListView.setAdapter(mCursorAdapter);
+
+        // Setup item click listener
+        petListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
+                Intent intent = new Intent(MainActivity.this, EditorActivity.class);
+
+                //Create the ContentUri that represents the specific pet that was clicked on by appending the id
+                Uri currentPetUri = ContentUris.withAppendedId(PetEntry.CONTENT_URI, id);
+                intent.setData(currentPetUri);
+                startActivity(intent);
+
+            }
+        });
 
         // Kick off the loader
         getLoaderManager().initLoader(PET_LOADER, null, this);
